@@ -184,3 +184,40 @@
   .heroVisual{transform:scale(.82);margin-left:-7%;margin-right:-7%;margin-bottom:-60px}
   .masterActions{grid-template-columns:1fr}
 }
+
+
+/* V2.5 — experiência profissional de cadastro e central de suporte */
+.modal{width:min(640px,100%)}
+.modalSmall{width:min(460px,100%)}
+.modalHead p{margin:6px 0 0;color:#667085;font-size:12px;line-height:1.45}
+.modalForm{gap:18px}
+.modalForm>label{font-size:12px;color:#1d2939;gap:8px}
+.modalForm input,.modalForm select{min-height:44px;background:#fff}
+.dayPicker{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:8px}
+.dayPicker button{min-width:0;border:1px solid #d9e0e8;background:#fff;color:#475467;border-radius:11px;padding:10px 5px;display:flex;align-items:center;justify-content:center;gap:4px;font-weight:800;transition:.18s ease;box-shadow:0 1px 2px rgba(16,24,40,.03)}
+.dayPicker button:hover{border-color:#8bd8bb;background:#f2fbf7}
+.dayPicker button.dayOn{background:#e9fbf4;border-color:#18a875;color:#087f5b;box-shadow:0 0 0 2px rgba(24,168,117,.08)}
+.dayPicker button small{font-size:10px;color:#087f5b}
+.fieldHelp{display:block;margin-top:8px;color:#98a2b3;font-size:10px;font-weight:500}
+.fieldEmptyHint{border:1px dashed #d5dae2;background:#f8fafc;border-radius:11px;padding:12px;color:#667085;font-size:11px;font-weight:500;line-height:1.5}
+.checkGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;margin-top:8px}
+.checkGrid .checkChip{border:1px solid #dfe4eb!important;background:#fff;border-radius:11px!important;padding:10px 11px!important;cursor:pointer;transition:.18s ease}
+.checkGrid .checkChip.active{border-color:#18a875!important;background:#e9fbf4;color:#087f5b}
+.checkGrid .checkChip input{accent-color:#16835b}
+.categoryGrid:empty:after{content:'Nenhuma categoria cadastrada. Clique em “+ Categoria” para começar.';display:block;color:#98a2b3;font-size:12px;padding:10px 2px}
+
+.supportInbox{display:grid;gap:8px;max-height:330px;overflow:auto;padding-right:4px;margin-bottom:14px}
+.supportInboxItem{width:100%;border:1px solid #e2e8f0;background:#fff;border-radius:13px;padding:12px;text-align:left;color:#0f172a;transition:.16s ease}
+.supportInboxItem:hover{background:#f8fbff;border-color:#cbd9e8}
+.supportInboxItem.selected{border-color:#18a875;background:#f1fcf7;box-shadow:0 0 0 2px rgba(24,168,117,.08)}
+.supportInboxTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.supportInboxTop b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.supportInboxTop span{font-size:9px;color:#94a3b8;white-space:nowrap}
+.supportInboxItem p{margin:6px 0;color:#475569;font-size:11px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.supportInboxMeta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.supportInboxMeta small{color:#94a3b8;font-size:9px}
+.supportInboxMeta em{font-style:normal;background:#e9fbf4;color:#087f5b;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:850}
+.supportInboxEmpty{padding:16px;background:#f8fafc;border:1px dashed #dbe3ed;border-radius:12px;text-align:center;color:#64748b;font-size:11px}
+.masterSupport .supportSelected{margin-top:4px}
+.compactEmpty{min-height:150px}
+@media(max-width:700px){.dayPicker{grid-template-columns:repeat(4,1fr)}.checkGrid{grid-template-columns:1fr}.modal{width:100%}.supportInbox{max-height:260px}}
