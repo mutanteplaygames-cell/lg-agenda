@@ -104,6 +104,7 @@ create table if not exists appointments(
   duration_override_minutes int,
   status text default 'scheduled',
   price_cents int not null,
+  notes text,
   reminder_opt_in boolean default false,
   reminder_at timestamptz,
   reminder_status text default 'disabled',
