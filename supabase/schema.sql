@@ -195,3 +195,18 @@ create table if not exists purchase_entitlements(
 );
 alter table purchase_entitlements enable row level security;
 create policy "owner entitlement select" on purchase_entitlements for select using(owner_id=auth.uid());
+
+-- LG Agenda V2 final: assinatura, bloqueio e onboarding
+alter table businesses add column if not exists owner_whatsapp text;
+alter table businesses add column if not exists access_status text default 'active';
+alter table businesses add column if not exists blocked_at timestamptz;
+alter table businesses add column if not exists blocked_reason text;
+alter table businesses add column if not exists onboarding_completed_at timestamptz;
+alter table subscriptions add column if not exists started_at timestamptz default now();
+alter table subscriptions add column if not exists grace_until timestamptz;
+alter table purchase_entitlements add column if not exists started_at timestamptz default now();
+
+-- novos estabelecimentos não recebem dados demo; o sistema cria apenas o tenant.
+alter table businesses alter column tolerance_minutes set default 0;
+alter table businesses alter column min_notice_minutes set default 60;
+alter table businesses alter column booking_window_days set default 30;
