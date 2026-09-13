@@ -34,6 +34,7 @@ export async function GET(req: Request) {
   const planKey = (source?.plan || '') as PlanKey;
   return NextResponse.json({
     user: { id: user.id, email: user.email },
+    mustChangePassword: user.user_metadata?.must_change_password === true,
     isMaster: isMasterEmail(user.email),
     business,
     subscription,

@@ -17,5 +17,13 @@ export async function GET(req: Request) {
     const r = await db.from('support_messages').select('*').in('thread_id', threadIds).order('created_at');
     messages = r.data || [];
   }
-  return NextResponse.json({ businesses: businesses.data || [], subscriptions: subscriptions.data || [], appointments: appointments.data || [], threads: threads.data || [], messages });
+  const businessRows = businesses.data || [];
+  const ownerEntries = await Promise.all(businessRows.map(async (b: any) => {
+    if (!b.owner_id) return [b.id, null];
+    const u = await db.auth.admin.getUserById(b.owner_id);
+    return [b.id, u.data?.user?.email || null];
+  }));
+  const ownerEmails = Object.fromEntries(ownerEntries);
+  const businessesWithOwner = businessRows.map((b: any) => ({ ...b, owner_email: ownerEmails[b.id] || null }));
+  return NextResponse.json({ businesses: businessesWithOwner, subscriptions: subscriptions.data || [], appointments: appointments.data || [], threads: threads.data || [], messages });
 }
