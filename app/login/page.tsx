@@ -1,5 +1,42 @@
 'use client';
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 import Link from 'next/link';
+import {useSearchParams} from 'next/navigation';
 import {supabaseBrowser} from '@/lib/supabase-browser';
-export default function Login(){const [email,setEmail]=useState(''),[password,setPassword]=useState(''),[busy,setBusy]=useState(false);async function go(){setBusy(true);const {error}=await supabaseBrowser().auth.signInWithPassword({email,password});setBusy(false);if(error)return alert(error.message);location.href='/admin';}return <main className="authPage"><section className="authCard"><Link href="/" className="authLogo">LG Agenda</Link><span className="eyebrowM">ACESSO DO ESTABELECIMENTO</span><h1>Entrar</h1><label>E-mail<input value={email} onChange={e=>setEmail(e.target.value)} /></label><label>Senha<input type="password" value={password} onChange={e=>setPassword(e.target.value)} /></label><button className="checkoutPrimary" onClick={go} disabled={busy}>{busy?'Entrando...':'Entrar →'}</button><p>Ainda não assina? <Link href="/#planos">Escolher plano</Link></p></section></main>}
+
+export default function Login(){
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+  const [busy,setBusy]=useState(false);
+  const [msg,setMsg]=useState('');
+  const params=useSearchParams();
+
+  useEffect(()=>{
+    if(params.get('confirmed')==='1') setMsg('E-mail confirmado. Agora você já pode entrar.');
+  },[params]);
+
+  async function go(){
+    if(!email || !password) return setMsg('Informe e-mail e senha.');
+    setBusy(true); setMsg('');
+    try{
+      const {error}=await supabaseBrowser().auth.signInWithPassword({email:email.trim().toLowerCase(),password});
+      if(error) throw error;
+      const next=params.get('next');
+      location.href=next && next.startsWith('/') ? next : '/admin';
+    }catch(e:any){
+      setMsg(e?.message || 'Não foi possível entrar. Confira seus dados.');
+    }finally{setBusy(false)}
+  }
+
+  return <main className="authPage"><section className="authCard">
+    <Link href="/" className="authLogo">LG Agenda</Link>
+    <span className="eyebrowM">ACESSO DO ESTABELECIMENTO</span>
+    <h1>Entrar</h1>
+    <p>Use o e-mail e a senha cadastrados na contratação.</p>
+    <label>E-mail<input type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} /></label>
+    <label>Senha<input type="password" autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')go()}} /></label>
+    {msg&&<div className="infoCallout">{msg}</div>}
+    <button className="checkoutPrimary" onClick={go} disabled={busy}>{busy?'Entrando...':'Entrar →'}</button>
+    <p>Ainda não assina? <Link href="/#planos">Escolher plano</Link></p>
+  </section></main>
+}
