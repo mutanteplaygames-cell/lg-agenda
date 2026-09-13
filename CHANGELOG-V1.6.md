@@ -6,3 +6,5 @@
 - /admin exige sessão autenticada e redireciona para /login quando necessário.
 - Login real com e-mail/senha via Supabase Auth.
 - Botão Sair no painel do estabelecimento.
+
+- V1.6.1: corrige build do Next.js envolvendo useSearchParams de /login em Suspense.
