@@ -43,10 +43,10 @@ function LoginContent() {
       if (state?.mustChangePassword) return location.replace('/reset-password?force=1');
       const requested = params.get('next');
 
-      if (requested === '/master') {
-        if (state?.isMaster) return location.replace('/master');
-        return location.replace('/admin');
-      }
+      // O Master nunca depende de pagamento nem de estabelecimento.
+      if (state?.isMaster) return location.replace('/master');
+
+      if (requested === '/master') return location.replace('/admin');
 
       if (state?.business) {
         return location.replace(requested && requested.startsWith('/') ? requested : '/admin');

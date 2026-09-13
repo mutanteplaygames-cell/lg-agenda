@@ -22,8 +22,9 @@ export default function Onboarding() {
   useEffect(() => { (async () => {
     const state = await accountState();
     if (!state) return setChecking(false);
+    if (state.isMaster) { location.replace('/master'); return; }
     if (state.business) { location.replace('/admin'); return; }
-    if (!state.hasPaidEntitlement) setMessage('Estamos aguardando a confirmação do pagamento. Se acabou de pagar, aguarde alguns segundos e atualize a página.');
+    if (!state.hasPaidEntitlement) setMessage('Estamos conciliando seu pagamento. Se acabou de pagar, aguarde alguns segundos e atualize a página.');
     setChecking(false);
   })(); }, []);
 

@@ -17,3 +17,170 @@
 .reminderOptIn{display:flex;gap:10px;align-items:flex-start;padding:14px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;margin:14px 0}.reminderOptIn input{margin-top:3px}.reminderOptIn span{display:grid;gap:3px}.reminderOptIn small{color:#64748b;font-weight:500}
 /* LG Agenda V2 final */
 .renewGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.renewGrid .checkoutPrimary{margin:0}.planStatusGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.planStatusGrid article{padding:18px;border:1px solid #e2e8f0;border-radius:16px;background:#f8fafc}.planStatusGrid span{display:block;color:#64748b;font-size:12px}.planStatusGrid b{display:block;font-size:20px;margin-top:6px}.upgradeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.planUpgrade{border:1px solid #dbe3ed;background:#fff;border-radius:16px;padding:18px;text-align:left;cursor:pointer}.planUpgrade:hover{border-color:#0cab78;box-shadow:0 10px 25px #0cab7814}.planUpgrade b,.planUpgrade span,.planUpgrade small{display:block}.planUpgrade span{font-size:18px;font-weight:900;margin:6px 0;color:#087f5b}.planUpgrade small{color:#64748b}.supportBubble.supportMaster{margin-left:0;margin-right:auto;background:#0f1c30;border-radius:12px 12px 12px 3px}.supportBubble span{display:block}.miniNumber{width:70px;border:1px solid #dbe3ed;border-radius:9px;padding:8px}.masterRowV2{grid-template-columns:1.4fr .65fr .8fr .8fr .4fr .65fr 1fr}.masterActions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.masterActions select{border:1px solid #dbe3ed;border-radius:10px;padding:8px;background:#fff}.supportTicket.fromMaster{background:#effcf7;border-color:#bcebd9}.checkGrid{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}.checkGrid label{display:flex!important;align-items:center;gap:5px!important;margin:0!important;padding:7px 9px;border:1px solid #e2e8f0;border-radius:9px;font-weight:600!important}.checkGrid input{width:auto!important}.planPanel{min-height:430px}@media(max-width:900px){.planStatusGrid,.upgradeGrid{grid-template-columns:1fr 1fr}.masterRowV2{grid-template-columns:1.5fr .7fr .7fr}.masterRowV2>*:nth-child(3),.masterRowV2>*:nth-child(4),.masterRowV2>*:nth-child(7){display:none}}@media(max-width:600px){.renewGrid,.planStatusGrid,.upgradeGrid{grid-template-columns:1fr}}
+
+/* LG Agenda V2.4 — experiência mobile */
+.mobileUtilityBar{display:none}
+@media (max-width: 720px){
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{overflow-x:hidden;padding-bottom:74px}
+  button,a,input,select,textarea{touch-action:manipulation}
+  input,select,textarea{font-size:16px!important}
+
+  /* Painel do estabelecimento: navegação inferior estilo app */
+  .appShell{display:block;min-height:100vh}
+  .workspace{padding:16px 14px 96px}
+  .sideNav{position:fixed;left:0;right:0;top:auto;bottom:0;height:74px;padding:7px 8px calc(7px + env(safe-area-inset-bottom));z-index:1000;border-top:1px solid #263244;box-shadow:0 -10px 30px #0b122022}
+  .sideNav .logoMark,.sideNav .sideBottom{display:none}
+  .sideNav nav{height:100%;display:flex;flex-direction:row;align-items:stretch;gap:4px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+  .sideNav nav::-webkit-scrollbar{display:none}
+  .sideNav nav button{min-width:76px;flex:0 0 76px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;padding:7px 5px;border-radius:11px;text-align:center;font-size:10px;line-height:1.1}
+  .sideNav nav button span{width:auto;font-size:17px}
+  .mobileUtilityBar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-2px 0 14px;background:#0c111d;color:#fff;border-radius:14px;padding:10px 12px;position:sticky;top:8px;z-index:50;box-shadow:0 8px 24px #0b12201f}
+  .mobileUtilityBar>b{font-size:14px;white-space:nowrap}
+  .mobileUtilityBar>div{display:flex;gap:6px;min-width:0}
+  .mobileUtilityBar a,.mobileUtilityBar button{border:1px solid #334155;background:#172033;color:#eef2f7;border-radius:9px;padding:7px 8px;font-size:10px;font-weight:800;white-space:nowrap}
+  .appTop{display:block;margin-bottom:14px}
+  .appTop h1{font-size:25px;margin-top:3px}
+  .appTop p{font-size:12px}
+  .topActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
+  .topActions>*{min-width:0;text-align:center;padding:10px 8px!important;font-size:11px!important}
+  .contentGrid{display:block;max-width:none}
+  .mainColumn,.rightColumn{gap:12px}
+  .rightColumn{display:flex;margin-top:12px}
+  .panel{border-radius:14px;padding:15px}
+  .heroPanel{padding:16px}
+  .panelTitle{gap:8px;margin-bottom:14px;align-items:flex-start}
+  .panelTitle>div{gap:8px}
+  .panelTitle h2{font-size:15px}
+  .panelTitle p{font-size:10px}
+  .sectionIcon{width:32px;height:32px;flex:0 0 32px}
+  .statusDot{font-size:9px;padding:5px 7px}
+  .identityGrid{grid-template-columns:1fr;gap:14px}
+  .uploadLogo{height:160px;max-width:160px;width:160px;margin:auto}
+  .fields2,.fields3{grid-template-columns:1fr}
+  .fields2 .wide{grid-column:auto}
+  .appearance{align-items:flex-start;gap:12px;flex-direction:column}
+  .swatches{flex-wrap:wrap}
+  .proGrid{grid-template-columns:1fr}
+  .proCard{padding:11px}
+  .serviceTable{border:0;overflow:visible;display:grid;gap:10px}
+  .serviceTable .tableHead{display:none}
+  .serviceRow{display:grid;grid-template-columns:1fr auto;gap:9px;border:1px solid #e7ebf0;border-radius:12px;padding:12px;background:#fff}
+  .serviceRow>*{min-width:0}
+  .serviceRow>div:first-child{grid-column:1/-1}
+  .serviceRow .rowBtns{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap}
+  .scheduleCard{display:grid!important;grid-template-columns:1fr;gap:8px!important;padding:13px!important}
+  .scheduleCard .outlineBtn{width:100%}
+  .apptCard{display:grid;grid-template-columns:72px 1fr;align-items:start;padding:12px;gap:10px}
+  .apptTime{width:auto}
+  .apptMain{min-width:0}
+  .apptMain span,.apptMain small{word-break:break-word}
+  .apptCard>a,.apptCard>input,.apptCard>select{grid-column:1/-1;width:100%}
+  .apptCard>.miniNumber{width:100%}
+  .quickStats{grid-template-columns:1fr 1fr}
+  .publicLink{grid-template-columns:minmax(0,1fr) auto}
+  .publicLink code{font-size:9px}
+  .supportWidget{left:10px;right:10px;bottom:84px;width:auto;height:min(68vh,560px);border-radius:16px}
+  .modalBack{padding:10px;align-items:end}
+  .modal{max-height:88vh;overflow:auto;border-radius:18px 18px 10px 10px}
+  .modalHead,.modalFoot{padding:14px}
+  .modalForm{padding:14px}
+  .modalFoot{position:sticky;bottom:0;z-index:2}
+
+  /* Login, onboarding e recuperação */
+  .authPage{padding:12px;place-items:start center;min-height:100svh}
+  .authCard{margin-top:5vh;border-radius:20px;padding:22px 18px;width:100%;box-shadow:0 16px 50px #0f172a10}
+  .authCard h1{font-size:28px;line-height:1.08}
+  .authCard p{font-size:14px}
+  .authCard label{margin:13px 0}
+  .checkoutPrimary{min-height:48px}
+
+  /* Página pública de agendamento */
+  .bookingPage{padding:0;background:#fff}
+  .bookingCard{width:100%;max-width:none;min-height:100svh;border-radius:0;box-shadow:none}
+  .bookingHero{padding:22px 16px 18px!important}
+  .bookingBrand{align-items:flex-start!important}
+  .bookingBrand h1{font-size:22px!important;line-height:1.1}
+  .bookingBrand p{font-size:11px!important}
+  .bookingMeta{gap:6px!important;flex-wrap:wrap}
+  .bookingBody{padding:16px!important}
+  .step{gap:10px!important;margin-top:20px!important}
+  .step:first-child{margin-top:0!important}
+  .step h2{font-size:17px!important}
+  .categoryOptions,.bookingOptions,.proOptions{gap:9px!important}
+  .categoryOptions button,.bookingOptions button,.proOptions button{min-height:58px;text-align:left}
+  .dateGrid{display:flex;overflow-x:auto;gap:8px;padding-bottom:6px;scroll-snap-type:x proximity}
+  .dateGrid button{flex:0 0 auto;min-width:86px;scroll-snap-align:start}
+  .timeGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .timeGrid button{min-height:44px;font-size:13px}
+  .customerFields{grid-template-columns:1fr}
+  .bookingSummary{align-items:flex-start!important;gap:10px}
+  .bookingSummary strong{white-space:nowrap}
+  .confirmBtn{min-height:50px;font-size:15px!important}
+
+  /* Landing page */
+  .mNav{height:auto;min-height:66px;padding:10px 14px;gap:10px}
+  .mNav nav{display:none}
+  .mNav>div{gap:6px}
+  .mNav .loginBtn,.mNav .ctaSmall{font-size:11px;padding:9px 10px!important;white-space:nowrap}
+  .mLogo b{font-size:16px!important}
+  .mLogo small{font-size:8px!important}
+  .heroMarketing{min-height:auto;padding:42px 16px;grid-template-columns:1fr;gap:30px}
+  .heroCopy h1{font-size:clamp(38px,11vw,54px)!important;line-height:.98!important}
+  .heroCopy p{font-size:15px!important}
+  .heroActions{display:grid!important;grid-template-columns:1fr;gap:9px!important}
+  .heroActions a{text-align:center}
+  .trustRow{display:grid!important;grid-template-columns:1fr;gap:7px!important}
+  .heroVisual{min-height:360px!important;transform:scale(.92);transform-origin:center top;margin-bottom:-25px}
+  .socialProof{overflow-x:auto;justify-content:flex-start!important;padding-left:16px!important;padding-right:16px!important;white-space:nowrap}
+  .featureSection,.pricingSection,.howSection,.whatsSection{padding-left:16px!important;padding-right:16px!important}
+  .featureGrid,.pricingGrid,.stepsMarketing{grid-template-columns:1fr!important}
+  .whatsSection{grid-template-columns:1fr!important;gap:28px!important}
+  .waPhone{max-width:100%!important}
+  .finalCta{margin:0 16px!important;padding:22px!important;display:grid!important;grid-template-columns:auto 1fr!important;gap:12px!important}
+  .finalCta>a{grid-column:1/-1;text-align:center}
+  .mFooter{padding:25px 16px!important;display:grid!important;gap:8px!important;text-align:center}
+  .checkoutBack{padding:8px!important;align-items:flex-end!important}
+  .checkoutModal{width:100%!important;max-height:92svh;overflow:auto;border-radius:20px 20px 8px 8px!important;padding:20px 16px!important}
+  .checkoutSteps{gap:6px!important}
+  .checkoutSteps span{font-size:10px!important;padding:8px 5px!important}
+  .payMethods{grid-template-columns:1fr}
+  .checkoutTotal{gap:12px;align-items:flex-start}
+
+  /* Admin geral */
+  .masterPage{padding:18px 12px 90px}
+  .masterTop{display:grid;grid-template-columns:1fr;gap:12px;align-items:start}
+  .masterTop h1{font-size:28px;line-height:1.05}
+  .masterTop .ghostBtn{width:100%;text-align:center}
+  .masterMetrics{grid-template-columns:1fr 1fr;gap:9px}
+  .masterMetrics article{padding:15px;border-radius:14px}
+  .masterMetrics b{font-size:23px}
+  .masterGrid{grid-template-columns:1fr}
+  .masterFilters{padding:12px;margin-bottom:12px}
+  .quickPeriods{width:100%;display:grid;grid-template-columns:repeat(2,1fr)}
+  .quickPeriods button{font-size:11px;padding:9px 6px}
+  .customRange{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .masterFilterRight{display:grid;width:100%;grid-template-columns:1fr}
+  .masterFilterRight input,.masterFilterRight select{width:100%;min-width:0!important}
+  .masterTable{gap:9px}
+  .masterRow.head{display:none}
+  .masterRowButton{border:1px solid #e3e8ef!important;border-radius:13px;background:#fff!important;overflow:hidden}
+  .masterRow,.masterRowV2{grid-template-columns:1fr auto!important;gap:7px 12px;padding:13px!important}
+  .masterRow>*{display:block!important;min-width:0}
+  .masterRow>*:first-child{grid-column:1/-1}
+  .masterRow>*:nth-child(n+2){font-size:11px}
+  .masterActions{display:grid;grid-template-columns:1fr 1fr}
+  .masterActions>*{min-width:0;width:100%}
+  .masterLeaders{grid-template-columns:1fr}
+}
+
+@media (max-width: 390px){
+  .mobileUtilityBar>div{gap:4px}
+  .mobileUtilityBar a,.mobileUtilityBar button{padding:7px 6px;font-size:9px}
+  .topActions{grid-template-columns:1fr}
+  .quickStats,.masterMetrics{grid-template-columns:1fr}
+  .timeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mNav .ctaSmall{display:none}
+  .heroVisual{transform:scale(.82);margin-left:-7%;margin-right:-7%;margin-bottom:-60px}
+  .masterActions{grid-template-columns:1fr}
+}

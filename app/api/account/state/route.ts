@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getRequestUser, isMasterEmail } from '@/lib/auth-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { PLANS, type PlanKey } from '@/lib/config';
+import { reconcileApprovedPaymentForUser } from '@/lib/payment-entitlement';
 
 const DAY = 86400000;
 const GRACE = 48 * 3600000;
@@ -10,10 +11,26 @@ export async function GET(req: Request) {
   const user = await getRequestUser(req);
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   const db = supabaseAdmin();
-  const [{ data: business }, { data: entitlement }] = await Promise.all([
+  const isMaster = isMasterEmail(user.email);
+  let [{ data: business }, { data: entitlement }] = await Promise.all([
     db.from('businesses').select('*').eq('owner_id', user.id).maybeSingle(),
     db.from('purchase_entitlements').select('*').eq('owner_id', user.id).maybeSingle(),
   ]);
+
+  // Fallback de conciliação: se o webhook não persistiu o pagamento, consultamos o
+  // Mercado Pago no próximo login/retorno e recuperamos automaticamente a compra.
+  // Master não depende de assinatura.
+  if (!isMaster && entitlement?.status !== 'active') {
+    try {
+      const rec = await reconcileApprovedPaymentForUser(user.id, user.email);
+      if (rec?.found) {
+        const refreshed = await db.from('purchase_entitlements').select('*').eq('owner_id', user.id).maybeSingle();
+        entitlement = refreshed.data;
+      }
+    } catch (e) {
+      console.error('account-state-reconcile', e);
+    }
+  }
   let subscription: any = null;
   if (business) {
     const r = await db.from('subscriptions').select('*').eq('business_id', business.id).maybeSingle();
@@ -35,7 +52,7 @@ export async function GET(req: Request) {
   return NextResponse.json({
     user: { id: user.id, email: user.email },
     mustChangePassword: user.user_metadata?.must_change_password === true,
-    isMaster: isMasterEmail(user.email),
+    isMaster,
     business,
     subscription,
     entitlement,
