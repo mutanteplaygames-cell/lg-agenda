@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { supabaseBrowser } from '@/lib/supabase-browser';
+import { canonicalClientOrigin } from '@/lib/site-url';
 
 const money=(c:number)=>((c||0)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const dateBR=(v:string)=>new Date(v).toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'});
@@ -19,7 +20,7 @@ export default function Admin(){
  const [editService,setEditService]=useState<any>(null),[editPro,setEditPro]=useState<any>(null),[newCategory,setNewCategory]=useState<string|null>(null),[supportOpen,setSupportOpen]=useState(false),[supportMsgs,setSupportMsgs]=useState<any[]>([]),[supportText,setSupportText]=useState('');
  const [checkoutBusy,setCheckoutBusy]=useState(''),[refreshing,setRefreshing]=useState(false),[newAgendaMonth,setNewAgendaMonth]=useState<string|null>(null),[photoBusy,setPhotoBusy]=useState(false),[logoBusy,setLogoBusy]=useState(false),[rankMetric,setRankMetric]=useState<'revenue'|'clients'|'services'>('revenue'),[performanceRange,setPerformanceRange]=useState<'today'|'7d'|'30d'|'month'|'all'|'custom'>('30d'),[perfStart,setPerfStart]=useState(''),[perfEnd,setPerfEnd]=useState(''),[agendaView,setAgendaView]=useState<'all'|'today'|'tomorrow'>('today'),[agendaCat,setAgendaCat]=useState(''),[agendaService,setAgendaService]=useState(''),[agendaPro,setAgendaPro]=useState(''),[agendaStatus,setAgendaStatus]=useState(''),[manualAppt,setManualAppt]=useState<any>(null),[dayOffPro,setDayOffPro]=useState<any>(null),[dayOffDate,setDayOffDate]=useState('');
  const sb=useMemo(()=>supabaseBrowser(),[]);
- const site=typeof window!=='undefined'?window.location.origin:'https://lg-agenda.vercel.app';
+ const site=canonicalClientOrigin();
 
  async function load(){
   const t=await token(); if(!t){location.replace('/login?next=/admin');return}

@@ -17,12 +17,14 @@ export async function POST(req:Request){
   if(!businessId||!serviceId||!name||!cleanPhone||!startsAt)return NextResponse.json({error:'Dados incompletos.'},{status:400});
   if(!/^\d{2}9\d{8}$/.test(cleanPhone))return NextResponse.json({error:'WhatsApp inválido. Informe DDD + celular com 9 dígitos.'},{status:400});
   const [{data:biz},{data:svc},{data:sub}]=await Promise.all([
-   db.from('businesses').select('subscription_status,access_status,tolerance_minutes,min_notice_minutes').eq('id',businessId).single(),
+   db.from('businesses').select('owner_id,subscription_status,access_status,tolerance_minutes,min_notice_minutes').eq('id',businessId).single(),
    db.from('services').select('id,category_id,price_cents,duration_minutes,buffer_minutes,active').eq('id',serviceId).eq('business_id',businessId).single(),
    db.from('subscriptions').select('paid_until,status').eq('business_id',businessId).maybeSingle()
   ]);
-  const paid=sub?.paid_until?new Date(sub.paid_until).getTime():0;
-  if(!biz||biz.access_status==='blocked'||biz.subscription_status!=='active'||!paid||Date.now()>paid+GRACE||!svc||svc.active===false)return NextResponse.json({error:'Agenda indisponível.'},{status:403});
+  let paymentSource:any=sub;
+  if(!paymentSource?.paid_until&&biz?.owner_id){const {data:ent}=await db.from('purchase_entitlements').select('status,paid_until').eq('owner_id',biz.owner_id).maybeSingle();paymentSource=ent}
+  const paid=paymentSource?.paid_until?new Date(paymentSource.paid_until).getTime():0;
+  if(!biz||biz.access_status==='blocked'||paymentSource?.status!=='active'||!paid||Date.now()>paid+GRACE||!svc||svc.active===false)return NextResponse.json({error:'Agenda indisponível.'},{status:403});
   const start=new Date(startsAt);if(Number.isNaN(start.getTime()))return NextResponse.json({error:'Data inválida.'},{status:400});
   if(start.getTime()<Date.now()+Math.max(60,biz.min_notice_minutes||60)*60000)return NextResponse.json({error:'Escolha um horário com pelo menos 1 hora de antecedência.'},{status:409});
   const lp=localParts(start);const monthStart=`${lp.year}-${lp.month}-01`;

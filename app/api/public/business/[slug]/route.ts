@@ -4,10 +4,14 @@ const GRACE=48*3600000;
 export async function GET(_:Request,{params}:{params:Promise<{slug:string}>}){
  try{
   const {slug}=await params;const db=supabaseAdmin();
-  const {data:business,error}=await db.from('businesses').select('id,name,slug,logo_url,cover_url,primary_color,address,bio,tolerance_minutes,min_notice_minutes,booking_window_days,subscription_status,access_status').eq('slug',slug).single();
+  const {data:business,error}=await db.from('businesses').select('id,owner_id,name,slug,logo_url,cover_url,primary_color,address,bio,tolerance_minutes,min_notice_minutes,booking_window_days,subscription_status,access_status').eq('slug',slug).single();
   if(error||!business)return NextResponse.json({error:'Agenda não encontrada.'},{status:404});
-  const {data:sub}=await db.from('subscriptions').select('status,paid_until').eq('business_id',business.id).maybeSingle();
-  const paid=sub?.paid_until?new Date(sub.paid_until).getTime():0;const now=Date.now();const allowed=business.access_status!=='blocked'&&business.subscription_status==='active'&&!!paid&&now<=paid+GRACE;
+  const [{data:sub},{data:ent}]=await Promise.all([
+   db.from('subscriptions').select('status,paid_until').eq('business_id',business.id).maybeSingle(),
+   db.from('purchase_entitlements').select('status,paid_until').eq('owner_id',business.owner_id).maybeSingle()
+  ]);
+  const source=(sub?.paid_until?sub:ent);const paid=source?.paid_until?new Date(source.paid_until).getTime():0;const now=Date.now();
+  const allowed=business.access_status!=='blocked'&&source?.status==='active'&&!!paid&&now<=paid+GRACE;
   if(!allowed)return NextResponse.json({error:'Agenda temporariamente indisponível. Entre em contato com o estabelecimento.'},{status:403});
   const [cats,services,pros,schedules,links,serviceLinks,blocks,appointments,released]=await Promise.all([
    db.from('categories').select('*').eq('business_id',business.id).eq('active',true),
