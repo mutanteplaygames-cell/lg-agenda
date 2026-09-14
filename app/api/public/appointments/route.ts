@@ -12,7 +12,7 @@ function hhmm(v?:string|null){return String(v||'').slice(0,5)}
 
 export async function POST(req:Request){
  try{
-  const {businessId,professionalId,serviceId,name,phone,startsAt,reminderOptIn,notes}=await req.json();const db=supabaseAdmin();
+  const {businessId,professionalId,serviceId,name,phone,startsAt,notes}=await req.json();const db=supabaseAdmin();
   const cleanPhone=String(phone||'').replace(/\D/g,'');
   if(!businessId||!serviceId||!name||!cleanPhone||!startsAt)return NextResponse.json({error:'Dados incompletos.'},{status:400});
   if(!/^\d{2}9\d{8}$/.test(cleanPhone))return NextResponse.json({error:'WhatsApp inválido. Informe DDD + celular com 9 dígitos.'},{status:400});
@@ -56,8 +56,7 @@ export async function POST(req:Request){
   const chosen=professionalId?professionalId:selected[Math.floor(Math.random()*selected.length)];
   let {data:customer}=await db.from('customers').select('id').eq('business_id',businessId).eq('phone',cleanPhone).maybeSingle();
   if(!customer){const created=await db.from('customers').insert({business_id:businessId,name,phone:cleanPhone}).select('id').single();if(created.error)throw created.error;customer=created.data}else await db.from('customers').update({name}).eq('id',customer.id);
-  const reminderAt=new Date(start.getTime()-4*3600000);
-  const {data:appt,error}=await db.from('appointments').insert({business_id:businessId,professional_id:chosen,service_id:serviceId,customer_id:customer!.id,starts_at:start.toISOString(),ends_at:end.toISOString(),status:'scheduled',price_cents:svc.price_cents,reminder_opt_in:!!reminderOptIn,reminder_at:reminderOptIn?reminderAt.toISOString():null,reminder_status:reminderOptIn?'pending':'disabled',notes:String(notes||'').trim().slice(0,500)||null}).select('id,professional_id').single();
+  const {data:appt,error}=await db.from('appointments').insert({business_id:businessId,professional_id:chosen,service_id:serviceId,customer_id:customer!.id,starts_at:start.toISOString(),ends_at:end.toISOString(),status:'scheduled',price_cents:svc.price_cents,reminder_opt_in:false,reminder_at:null,reminder_status:'disabled',notes:String(notes||'').trim().slice(0,500)||null}).select('id,professional_id').single();
   if(error)throw error;return NextResponse.json({ok:true,id:appt.id,professionalId:appt.professional_id});
  }catch(e:any){return NextResponse.json({error:e.message||'Erro ao agendar.'},{status:500})}
 }

@@ -5,6 +5,7 @@ create table if not exists businesses(
   owner_id uuid not null references auth.users(id) on delete cascade,
   name text not null,
   slug text unique not null,
+  business_type text not null default 'other',
   whatsapp text,
   address text,
   bio text,
@@ -31,7 +32,7 @@ create table if not exists professionals(
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references businesses(id) on delete cascade,
   name text not null,
-  role text not null default 'Barbeiro',
+  role text not null default 'Profissional',
   photo_url text,
   active boolean default true,
   created_at timestamptz default now()

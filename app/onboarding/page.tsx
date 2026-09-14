@@ -6,6 +6,7 @@ import { uniqueSlug } from '@/lib/slug';
 export default function Onboarding() {
   const [name, setName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
+  const [businessType, setBusinessType] = useState('barbershop');
   const [busy, setBusy] = useState(false);
   const [checking, setChecking] = useState(true);
   const [message, setMessage] = useState('');
@@ -37,7 +38,7 @@ export default function Onboarding() {
     const state = await accountState();
     if (!state?.hasPaidEntitlement) { setBusy(false); return setMessage('Pagamento ainda não confirmado. Aguarde alguns segundos e tente novamente.'); }
     const slug = uniqueSlug(name);
-    const { data: biz, error } = await supabase.from('businesses').insert({ owner_id: user.id, name: name.trim(), slug, whatsapp: whatsapp.replace(/\D/g, ''), owner_whatsapp: whatsapp.replace(/\D/g, ''), address: '', bio: '', tolerance_minutes: 0, min_notice_minutes: 60, booking_window_days: 30, primary_color: '#198754', subscription_status: 'pending_verification', access_status: 'active' }).select('id').single();
+    const { data: biz, error } = await supabase.from('businesses').insert({ owner_id: user.id, name: name.trim(), slug, whatsapp: whatsapp.replace(/\D/g, ''), owner_whatsapp: whatsapp.replace(/\D/g, ''), business_type: businessType, address: '', bio: '', tolerance_minutes: 0, min_notice_minutes: 60, booking_window_days: 30, primary_color: '#198754', subscription_status: 'pending_verification', access_status: 'active' }).select('id').single();
     if (error) { setBusy(false); return alert(error.message); }
     const act = await fetch('/api/onboarding/activate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.id, businessId: biz.id }) });
     const j = await act.json(); setBusy(false);
@@ -46,5 +47,5 @@ export default function Onboarding() {
   }
 
   if (checking) return <main className="authPage"><section className="authCard"><b>LG Agenda</b><p>Verificando seu pagamento...</p></section></main>;
-  return <main className="authPage"><section className="authCard"><span className="eyebrowM">ÚLTIMO PASSO</span><h1>Configure seu estabelecimento</h1><p>Se você fechar esta página, ao entrar novamente voltará automaticamente para esta etapa até concluir a configuração.</p>{message && <div className="infoCallout">{message}</div>}<label>Nome do estabelecimento<input value={name} onChange={e => setName(e.target.value)} placeholder="Ex.: Lopes Barbearia" /></label><label>WhatsApp do responsável<input value={whatsapp} onChange={e => setWhatsapp(e.target.value)} placeholder="11999999999" /></label><button className="checkoutPrimary" disabled={!name || busy} onClick={save}>{busy ? 'Salvando...' : 'Criar meu estabelecimento →'}</button></section></main>;
+  return <main className="authPage"><section className="authCard"><span className="eyebrowM">ÚLTIMO PASSO</span><h1>Configure seu estabelecimento</h1><p>Se você fechar esta página, ao entrar novamente voltará automaticamente para esta etapa até concluir a configuração.</p>{message && <div className="infoCallout">{message}</div>}<label>Tipo de negócio<select value={businessType} onChange={e=>setBusinessType(e.target.value)}><option value="barbershop">Barbearia</option><option value="beauty_salon">Salão de beleza</option><option value="nails">Manicure / Nail designer</option><option value="aesthetics">Estética / Bem-estar</option><option value="petshop">Pet shop / Banho e tosa</option><option value="other">Outro negócio de serviços</option></select></label><small className="fieldHelp">Isso personaliza exemplos e deixa a LG Agenda pronta para o seu segmento.</small><label>Nome do estabelecimento<input value={name} onChange={e => setName(e.target.value)} placeholder="Ex.: Studio Bella, Pet Feliz, Barbearia Central" /></label><label>WhatsApp do responsável<input value={whatsapp} onChange={e => setWhatsapp(e.target.value)} placeholder="11999999999" /></label><button className="checkoutPrimary" disabled={!name || busy} onClick={save}>{busy ? 'Salvando...' : 'Criar meu estabelecimento →'}</button></section></main>;
 }

@@ -5,6 +5,4 @@ export const PLANS = {
   annual: { label: 'Anual', months: 12, price: 529.90 },
 } as const;
 
-export const WHATSAPP_MONTHLY = 59.90;
-export const WHATSAPP_REMINDER_LIMIT = 500;
 export type PlanKey = keyof typeof PLANS;

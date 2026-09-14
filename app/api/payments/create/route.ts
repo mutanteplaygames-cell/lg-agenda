@@ -11,13 +11,12 @@ export async function POST(req: Request) {
     const user = await getRequestUser(req);
     if (!user) return NextResponse.json({ error: 'Sessão inválida. Entre novamente.' }, { status: 401 });
 
-    const { plan, whatsapp } = await req.json();
+    const { plan } = await req.json();
     if (!PLANS[plan as PlanKey]) return NextResponse.json({ error: 'Plano inválido.' }, { status: 400 });
     if (!user.email) return NextResponse.json({ error: 'Sua conta não possui e-mail válido.' }, { status: 400 });
 
     const pref = await createPreference({
       plan: plan as PlanKey,
-      whatsapp: !!whatsapp,
       email: user.email,
       userId: user.id,
     });

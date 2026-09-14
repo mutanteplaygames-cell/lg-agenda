@@ -14,7 +14,6 @@ export async function GET() {
       secretKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY)
     },
     mercadoPago: Boolean(process.env.MERCADO_PAGO_ACCESS_TOKEN),
-    whatsapp: Boolean(process.env.WHATSAPP_PHONE_NUMBER_ID && process.env.WHATSAPP_ACCESS_TOKEN),
     cron: Boolean(process.env.CRON_SECRET)
   });
 }
